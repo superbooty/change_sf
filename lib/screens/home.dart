@@ -43,6 +43,15 @@ class _MyHomePageState extends State<ImageHandler> {
         return Container(
           child: ListView(
             children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Text('Select all that apply'.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    )),
+              ),
               ListTile(
                 onLongPress: () {},
                 title: Text(
@@ -229,34 +238,50 @@ class _MyHomePageState extends State<ImageHandler> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            CarouselSlider(
-              //height: mediaQuery.size.height * .5,
-              enlargeCenterPage: true,
-              viewportFraction: 1.0,
-              autoPlayInterval: Duration(seconds: 10),
-              autoPlay: true,
-              aspectRatio: 2.2,
-              items: <Widget>[
-                Image.network(
-                  'https://s.hdnux.com/photos/45/22/01/9773154/11/rawImage.jpg',
-                  fit: BoxFit.contain,
-                ),
-                Image.network(
-                  'http://media.bizj.us/view/img/8391832/homeless-3*750xx7360-4152-0-589.jpg',
-                  fit: BoxFit.contain,
-                ),
-                Image.network(
-                  'https://hoodwork-production.s3.amazonaws.com/uploads/story/image/28458/shotwell_tents.jpg',
-                  fit: BoxFit.contain,
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Trending Moments'.toUpperCase(),
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: Colors.brown,
+                )
+              ),
+            ),
+            Container(
+              color: Colors.amberAccent[400],
+              child: CarouselSlider(
+                //height: mediaQuery.size.height * .5,
+                enlargeCenterPage: true,
+                viewportFraction: 1.0,
+                autoPlayInterval: Duration(seconds: 10),
+                autoPlay: true,
+                aspectRatio: 2.2,
+                items: <Widget>[
+                  Image.network(
+                    'https://s.hdnux.com/photos/45/22/01/9773154/11/rawImage.jpg',
+                    fit: BoxFit.contain,
+                  ),
+                  Image.network(
+                    'http://media.bizj.us/view/img/8391832/homeless-3*750xx7360-4152-0-589.jpg',
+                    fit: BoxFit.contain,
+                  ),
+                  Image.network(
+                    'https://hoodwork-production.s3.amazonaws.com/uploads/story/image/28458/shotwell_tents.jpg',
+                    fit: BoxFit.contain,
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              color: Colors.black54,
             ),
             Center(
               child: FlatButton(
                 //color: Color(0XFFc41130),
                 textColor: Colors.brown[700],
                 child: Text(
-                  'WHAT\'S HAPPENING NOW?',
+                  'Capture the moment'.toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
@@ -300,7 +325,7 @@ class _MyHomePageState extends State<ImageHandler> {
                 textColor: Colors.brown[700],
                 shape: Border.all(),
                 child: Text(
-                  'TAG THIS MOMENT',
+                  'Tag the moment'.toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
