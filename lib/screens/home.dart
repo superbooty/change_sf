@@ -3,28 +3,9 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
-class _MomentTag {
-  String _title;
-  bool _checked = false;
-
-  _MomentTag({@required title, @required checked}) {
-    this._title = title;
-    this._checked = checked;
-  }
-
-  void toggleIsChecked() {
-    this._checked = !this._checked;
-  }
-
-  String get title {
-    return this._title;
-  }
-
-  bool get checked {
-    return this._checked;
-  }
-}
+import '../providers/tag_provider.dart';
 
 class Home extends StatelessWidget {
   // final String title;
@@ -33,7 +14,7 @@ class Home extends StatelessWidget {
   // ProductDetailScreen(this.title, this.price);
   static const routeName = '/home';
 
-  final String appBarText = 'Change SF';
+  final String appBarText = 'Shame on SF';
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +136,7 @@ class _MyHomePageState extends State<ImageHandler> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Trending Moments'.toUpperCase(),
+              child: Text('Trending'.toUpperCase(),
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.brown,
@@ -233,11 +214,13 @@ class _MyHomePageState extends State<ImageHandler> {
             SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
-              child: FlatButton(
+              child: FlatButton.icon(
                 //color: Color(0XFFc41130),
                 textColor: Colors.brown[700],
+                padding: EdgeInsets.all(12),
                 shape: Border.all(),
-                child: Text(
+                icon: Icon(Icons.note_add, size: 24),
+                label: Text(
                   'Tag the moment'.toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -269,113 +252,113 @@ class _TagList extends StatefulWidget {
 
 class __TagListState extends State<_TagList> {
 
-  List<_MomentTag> tags = [
-    _MomentTag(title: 'Encampment', checked: false),
-    _MomentTag(title: 'Health / Safety Risk', checked: false),
-    _MomentTag(title: 'Needles / Drug Paraphernalia ', checked: false),
-  ];
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      // MomentTagTile(tileTitle: 'Encampment', isChecked: false, action: null),
-      // MomentTagTile(tileTitle: 'Health / Safety Risk', isChecked: false, action: null),
-      // MomentTagTile(tileTitle: 'Needles / Drug Paraphernalia ', isChecked: false, action: null),
-      itemCount: tags.length,
-      shrinkWrap: true,
-      itemBuilder: (context, i) {
-        return MomentTagTile(
-            tileTitle: tags[i].title,
-            isChecked: tags[i].checked,
-            action: (newVal) {
-              tags[i].toggleIsChecked();
-              setState(() {});
-            });
-      },
+    MomentTaglist tagList =
+        Provider.of<MomentTaglist>(context, listen: false);
+    tagList.fetchTags();
+    return Consumer<MomentTaglist>(
+      builder: (context, moment, child) => ListView.builder(
+        // MomentTagTile(tileTitle: 'Encampment', isChecked: false, action: null),
+        // MomentTagTile(tileTitle: 'Health / Safety Risk', isChecked: false, action: null),
+        // MomentTagTile(tileTitle: 'Needles / Drug Paraphernalia ', isChecked: false, action: null),
+        itemCount: moment.tags.length,
+        shrinkWrap: true,
+        itemBuilder: (context, i) {
+          return MomentTagTile(
+              tileTitle: moment.tags[i].title,
+              isChecked: moment.tags[i].checked,
+              action: (newVal) {
+                moment.tags[i].toggleIsChecked();
+                setState(() {});
+              });
+        },
 
-      // ListTile(
-      //   onLongPress: () {},
-      //   title: Text(
-      //     'Health / Safety Risk',
-      //     style: TextStyle(),
-      //   ),
-      //   trailing: Checkbox(
-      //     activeColor: Colors.lightBlueAccent,
-      //     value: false,
-      //     onChanged: (newVal) {},
-      //   ),
-      // ),
-      // ListTile(
-      //   onLongPress: () {},
-      //   title: Text(
-      //     'Weapons',
-      //     style: TextStyle(),
-      //   ),
-      //   trailing: Checkbox(
-      //     activeColor: Colors.lightBlueAccent,
-      //     value: false,
-      //     onChanged: (newVal) {},
-      //   ),
-      // ),
-      // ListTile(
-      //   onLongPress: () {},
-      //   title: Text(
-      //     'Drugs',
-      //     style: TextStyle(),
-      //   ),
-      //   trailing: Checkbox(
-      //     activeColor: Colors.lightBlueAccent,
-      //     value: false,
-      //     onChanged: (newVal) {},
-      //   ),
-      // ),
-      // ListTile(
-      //   onLongPress: () {},
-      //   title: Text(
-      //     'Trash / Debris',
-      //     style: TextStyle(),
-      //   ),
-      //   trailing: Checkbox(
-      //     activeColor: Colors.lightBlueAccent,
-      //     value: false,
-      //     onChanged: (newVal) {},
-      //   ),
-      // ),
-      // ListTile(
-      //   onLongPress: () {},
-      //   title: Text(
-      //     'Blocked Sidewalk',
-      //     style: TextStyle(),
-      //   ),
-      //   trailing: Checkbox(
-      //     activeColor: Colors.lightBlueAccent,
-      //     value: false,
-      //     onChanged: (newVal) {},
-      //   ),
-      // ),
-      // ListTile(
-      //   onLongPress: () {},
-      //   title: Text(
-      //     'Human waste',
-      //     style: TextStyle(),
-      //   ),
-      //   trailing: Checkbox(
-      //     activeColor: Colors.lightBlueAccent,
-      //     value: false,
-      //     onChanged: (newVal) {},
-      //   ),
-      // ),
-      // ListTile(
-      //   onLongPress: () {},
-      //   title: Text(
-      //     'Graffiti',
-      //     style: TextStyle(),
-      //   ),
-      //   trailing: Checkbox(
-      //     activeColor: Colors.lightBlueAccent,
-      //     value: false,
-      //     onChanged: (newVal) {},
-      //   ),
-      // ),
+        // ListTile(
+        //   onLongPress: () {},
+        //   title: Text(
+        //     'Health / Safety Risk',
+        //     style: TextStyle(),
+        //   ),
+        //   trailing: Checkbox(
+        //     activeColor: Colors.lightBlueAccent,
+        //     value: false,
+        //     onChanged: (newVal) {},
+        //   ),
+        // ),
+        // ListTile(
+        //   onLongPress: () {},
+        //   title: Text(
+        //     'Weapons',
+        //     style: TextStyle(),
+        //   ),
+        //   trailing: Checkbox(
+        //     activeColor: Colors.lightBlueAccent,
+        //     value: false,
+        //     onChanged: (newVal) {},
+        //   ),
+        // ),
+        // ListTile(
+        //   onLongPress: () {},
+        //   title: Text(
+        //     'Drugs',
+        //     style: TextStyle(),
+        //   ),
+        //   trailing: Checkbox(
+        //     activeColor: Colors.lightBlueAccent,
+        //     value: false,
+        //     onChanged: (newVal) {},
+        //   ),
+        // ),
+        // ListTile(
+        //   onLongPress: () {},
+        //   title: Text(
+        //     'Trash / Debris',
+        //     style: TextStyle(),
+        //   ),
+        //   trailing: Checkbox(
+        //     activeColor: Colors.lightBlueAccent,
+        //     value: false,
+        //     onChanged: (newVal) {},
+        //   ),
+        // ),
+        // ListTile(
+        //   onLongPress: () {},
+        //   title: Text(
+        //     'Blocked Sidewalk',
+        //     style: TextStyle(),
+        //   ),
+        //   trailing: Checkbox(
+        //     activeColor: Colors.lightBlueAccent,
+        //     value: false,
+        //     onChanged: (newVal) {},
+        //   ),
+        // ),
+        // ListTile(
+        //   onLongPress: () {},
+        //   title: Text(
+        //     'Human waste',
+        //     style: TextStyle(),
+        //   ),
+        //   trailing: Checkbox(
+        //     activeColor: Colors.lightBlueAccent,
+        //     value: false,
+        //     onChanged: (newVal) {},
+        //   ),
+        // ),
+        // ListTile(
+        //   onLongPress: () {},
+        //   title: Text(
+        //     'Graffiti',
+        //     style: TextStyle(),
+        //   ),
+        //   trailing: Checkbox(
+        //     activeColor: Colors.lightBlueAccent,
+        //     value: false,
+        //     onChanged: (newVal) {},
+        //   ),
+        // ),
+      ),
     );
   }
 }
