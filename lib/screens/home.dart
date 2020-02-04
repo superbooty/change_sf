@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../providers/tag_provider.dart';
 
@@ -36,6 +37,7 @@ class ImageHandler extends StatefulWidget {
 
 class _MyHomePageState extends State<ImageHandler> {
   File _image;
+  Placemark _marker;
 
   final descController = TextEditingController();
 
@@ -119,10 +121,15 @@ class _MyHomePageState extends State<ImageHandler> {
   }
 
   Future getImage() async {
+    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    // print('Position :: $position');
+    List<Placemark> placemark = await Geolocator().placemarkFromCoordinates(position.latitude, position.longitude);
+    // print('Marker :: $placemark');
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
 
     setState(() {
       _image = image;
+      _marker = placemark[0];
     });
   }
 
@@ -191,12 +198,18 @@ class _MyHomePageState extends State<ImageHandler> {
             _image == null
                 ? Text('No image selected.')
                 : Container(
-                    height: 250,
-                    width: 250,
+                    height: 300,
+                    width: 200,
                     child: Card(
-                      child: Image.file(
-                        _image,
-                        fit: BoxFit.contain,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Text('${_marker.subThoroughfare} ${_marker.thoroughfare}, ${_marker.locality} ${_marker.administrativeArea}'),
+                          Image.file(
+                            _image,
+                            fit: BoxFit.contain,
+                          ),
+                        ],
                       ),
                     ),
                   ),
